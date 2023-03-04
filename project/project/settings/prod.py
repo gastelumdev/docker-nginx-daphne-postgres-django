@@ -4,7 +4,7 @@ DEBUG = False
 ADMINS = [
     ('Omar', 'gastelumdev@gmail.com')
 ]
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['collabtime.online', 'www.collabtime.online']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -15,3 +15,8 @@ DATABASES = {
         'PORT': 5432,
     }
 }
+
+# Security
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
