@@ -1,14 +1,23 @@
 # upstream for uWSGI
 upstream uwsgi_app {
-    server unix:/tmp/uwsgi_app.sock;
+    server unix:/home/containeruser/code/project/uwsgi_app.sock;
 }
 server {
-    listen       80;
-    server_name  www.collabtime.online collabtime.online;
-    error_log    stderr warn;
+    listen               80;
+    listen               443 ssl;
+    ssl_certificate      /home/containeruser/code/project/ssl/collabtime.crt;
+    ssl_certificate_key  /home/containeruser/code/project/ssl/collabtime.key;
+    server_name          www.collabtime.online collabtime.online;
+    error_log            stderr warn;
     access_log   /dev/stdout main;
     location / {
         include      /etc/nginx/uwsgi_params;
         uwsgi_pass   uwsgi_app;
+    }
+    location /static/ {
+        alias /home/containeruser/code/project/static/;
+    }
+    location /media/ {
+        alias /home/containeruser/code/project/media/;
     }
 }
