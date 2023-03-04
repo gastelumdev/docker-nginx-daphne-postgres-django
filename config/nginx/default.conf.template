@@ -4,6 +4,11 @@ upstream uwsgi_app {
 }
 server {
     listen               80;
+    server_name          www.collabtime.online collabtime.online;
+    return 301 https://$host$request_uri;
+}
+
+server {
     listen               443 ssl;
     ssl_certificate      /home/containeruser/code/project/ssl/collabtime.crt;
     ssl_certificate_key  /home/containeruser/code/project/ssl/collabtime.key;
