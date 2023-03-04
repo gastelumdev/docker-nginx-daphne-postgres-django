@@ -10,8 +10,8 @@ server {
 
 server {
     listen               443 ssl;
-    ssl_certificate      /home/containeruser/code/project/ssl/collabtime.crt;
-    ssl_certificate_key  /home/containeruser/code/project/ssl/collabtime.key;
+    # ssl_certificate      /home/containeruser/code/project/ssl/collabtime.crt;
+    # ssl_certificate_key  /home/containeruser/code/project/ssl/collabtime.key;
     server_name          www.collabtime.online collabtime.online;
     error_log            stderr warn;
     access_log   /dev/stdout main;
