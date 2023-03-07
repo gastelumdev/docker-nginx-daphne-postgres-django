@@ -140,3 +140,5 @@ GitHub.sublime-settings
 db.png
 project/ssl/
 project/static/
+project/daphne.sock.lock
+project/daphne.sock

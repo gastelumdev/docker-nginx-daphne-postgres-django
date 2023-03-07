@@ -29,6 +29,29 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+  daphne:
+    build: .
+    working_dir: /home/containeruser/code/project/
+    command:
+      [
+        "../wait-for-it.sh",
+        "db:5432",
+        "--",
+        "daphne",
+        "-u",
+        "/home/containeruser/code/project/daphne.sock",
+        "project.asgi:application"
+      ]
+    restart: always
+    volumes:
+      - .:/home/containeruser/code
+    environment:
+      - DJANGO_SETTINGS_MODULE=project.settings.prod
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
   nginx:
     image: nginx:1.23.1
     restart: always
@@ -40,10 +63,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email gastelumdev@gmail.com -d collabtime.online --agree-tos
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes:
+  #     - ./certbot/conf:/etc/letsencrypt
+  #     - ./certbot/www:/var/www/certbot
+  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email gastelumdev@gmail.com -d collabtime.online --agree-tos

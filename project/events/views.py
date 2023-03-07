@@ -7,6 +7,9 @@ from django.shortcuts import render, redirect, reverse
 from django.views import View
 from .models import Event
 
+def index(request):
+    return render(request, 'index.html', {})
+
 class RegisterView(View):
     def get(self, request):
         return render(request, 'registration/register.html', { 'form': UserCreationForm() })

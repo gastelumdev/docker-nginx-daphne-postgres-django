@@ -10,7 +10,26 @@ https://docs.djangoproject.com/en/4.1/howto/deployment/asgi/
 import os
 
 from django.core.asgi import get_asgi_application
-
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.security.websocket import AllowedHostsOriginValidator
+from django.urls import re_path
+from events.consumers import EchoConsumer
+import events.routing
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
-application = get_asgi_application()
+application = ProtocolTypeRouter({
+    # Django's ASGI application to handle traditional HTTP requests
+    "http": get_asgi_application(),
+    # WebSocket handler
+    # "websocket": AuthMiddlewareStack(
+    #     URLRouter([
+    #         re_path(r"^ws/echo/$", EchoConsumer.as_asgi()),
+    #     ])
+    # ),
+    'websocket': AllowedHostsOriginValidator(
+        AuthMiddlewareStack(
+            URLRouter(events.routing.websocket_urlpatterns)
+        )
+    ),
+})
