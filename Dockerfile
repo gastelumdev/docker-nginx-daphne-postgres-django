@@ -12,7 +12,7 @@ WORKDIR /home/containeruser/code
 # Install dependencies
 RUN pip install --upgrade pip
 COPY requirements.txt /home/containeruser/code/
-RUN pip install -r requirements.txt
+RUN pip install -r /home/containeruser/code/project/requirements.txt
 # Copy the Django project
 COPY . /home/containeruser/code/
 
